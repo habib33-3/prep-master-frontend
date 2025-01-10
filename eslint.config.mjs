@@ -2,6 +2,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,8 +14,6 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals",
-    "next/typescript",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
@@ -22,6 +21,11 @@ const eslintConfig = [
     "plugin:tailwindcss/recommended"
   ),
   {
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
     files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
     languageOptions: {
       ecmaVersion: "latest",
@@ -41,11 +45,6 @@ const eslintConfig = [
           aspects: ["invalidHref", "preferButton"],
         },
       ],
-      "@next/next/no-html-link-for-pages": [
-        "error",
-        path.join(__dirname, "pages"),
-      ],
-      "@next/next/no-img-element": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -59,7 +58,7 @@ const eslintConfig = [
         },
       ],
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "react/react-in-jsx-scope": "off",
+      "react/react-in-jsx-scope": "off", // Not needed for React 17+
       "react/prop-types": "off",
       "tailwindcss/no-custom-classname": "warn",
       "tailwindcss/classnames-order": "off",
@@ -69,6 +68,20 @@ const eslintConfig = [
       eqeqeq: ["error", "smart"],
     },
   },
+  {
+    plugins: {
+      "@tanstack/query": pluginQuery,
+    },
+    rules: {
+      "@tanstack/query/exhaustive-deps": "error",
+    },
+  },
+  // {
+  //   plugins: ["vite-plugin-eslint"],  // Add plugin name as an array of strings
+  //   rules: {
+  //     "vite-plugin-eslint/no-deprecated-imports": "warn",
+  //   },
+  // },
 ];
 
 export default eslintConfig;
