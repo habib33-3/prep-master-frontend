@@ -1,6 +1,9 @@
+import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "../ui/button";
 import {
@@ -28,20 +31,32 @@ const signUpFormSchema = z.object({
 const SignUpForm = () => {
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
+    defaultValues: { name: "", email: "", password: "" },
   });
+
+  const { registerUser } = useAuth();
+  const { toast } = useToast();
 
   const handleSignUp = async (values: z.infer<typeof signUpFormSchema>) => {
     try {
-      console.log("Form data:", values);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      console.log("Form submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      await registerUser(values.email, values.password);
+      toast({
+        title: "Success",
+        description: "User created successfully",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const errorMessages: Record<string, string> = {
+        "auth/email-already-in-use": "Email is already in use.",
+        "auth/weak-password": "Password is too weak.",
+      };
+
+      const errorMessage = errorMessages[error.code] || "Something went wrong.";
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
     }
   };
 
@@ -100,7 +115,7 @@ const SignUpForm = () => {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Signing In..." : "Sign In"}
+            {form.formState.isSubmitting ? "Signing Up..." : "Sign Up"}
           </Button>
         </form>
       </Form>
