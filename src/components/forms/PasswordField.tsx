@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+// Import Path
 import { Eye, EyeOff } from "lucide-react";
+import { Control, FieldValues, Path } from "react-hook-form";
 
 import {
   FormControl,
@@ -11,12 +13,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-interface PasswordFieldProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: { control: any };
+interface PasswordFieldProps<T extends FieldValues> {
+  form: { control: Control<T> }; // Generic control type
+  name: Path<T>; // Add the `name` prop and ensure it matches the schema keys
 }
 
-const PasswordField: React.FC<PasswordFieldProps> = ({ form }) => {
+const PasswordField = <T extends FieldValues>({
+  form,
+  name,
+}: PasswordFieldProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
@@ -24,7 +29,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({ form }) => {
   return (
     <FormField
       control={form.control}
-      name="password"
+      name={name} // Use the name dynamically
       render={({ field }) => (
         <FormItem>
           <FormLabel>Password</FormLabel>

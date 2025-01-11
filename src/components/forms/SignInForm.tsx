@@ -65,7 +65,10 @@ const SignInForm = () => {
           />
 
           {/* Password Field */}
-          <PasswordField form={form} />
+          <PasswordField
+            form={form}
+            name="password"
+          />
 
           {/* Submit Button */}
           <Button
