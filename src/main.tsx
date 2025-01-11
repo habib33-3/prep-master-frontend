@@ -6,7 +6,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 
 import "./index.css";
-import router from "./routers/Routers.tsx";
+import router from "./routers/Routers";
 
 const queryClient = new QueryClient();
 
