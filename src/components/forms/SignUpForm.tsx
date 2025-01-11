@@ -1,11 +1,6 @@
-import { useAuth } from "@/providers/AuthProvider";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useSignUp } from "@/hooks/auth/useSignUp";
 
-import { useToast } from "@/hooks/use-toast";
-
-import { Button } from "../ui/button";
+import LoadingButton from "../LoadingButton";
 import {
   Form,
   FormControl,
@@ -17,48 +12,8 @@ import {
 import { Input } from "../ui/input";
 import PasswordField from "./PasswordField";
 
-const signUpFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .min(3, { message: "Email must be at least 3 characters long." }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long." }),
-});
-
 const SignUpForm = () => {
-  const form = useForm<z.infer<typeof signUpFormSchema>>({
-    resolver: zodResolver(signUpFormSchema),
-    defaultValues: { name: "", email: "", password: "" },
-  });
-
-  const { registerUser } = useAuth();
-  const { toast } = useToast();
-
-  const handleSignUp = async (values: z.infer<typeof signUpFormSchema>) => {
-    try {
-      await registerUser(values.email, values.password);
-      toast({
-        title: "Success",
-        description: "User created successfully",
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      const errorMessages: Record<string, string> = {
-        "auth/email-already-in-use": "Email is already in use.",
-        "auth/weak-password": "Password is too weak.",
-      };
-
-      const errorMessage = errorMessages[error.code] || "Something went wrong.";
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    }
-  };
+  const { form, handleSignUp } = useSignUp();
 
   return (
     <div className="mx-auto max-w-sm space-y-4">
@@ -67,7 +22,6 @@ const SignUpForm = () => {
           onSubmit={form.handleSubmit(handleSignUp)}
           className="space-y-4"
         >
-          {/* Name Field */}
           <FormField
             control={form.control}
             name="name"
@@ -84,8 +38,6 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-
-          {/* Email Field */}
           <FormField
             control={form.control}
             name="email"
@@ -102,21 +54,14 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-
-          {/* Password Field */}
           <PasswordField
             form={form}
             name="password"
           />
-
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? "Signing Up..." : "Sign Up"}
-          </Button>
+          <LoadingButton
+            loading={form.formState.isSubmitting}
+            title="Sign Up"
+          />
         </form>
       </Form>
     </div>

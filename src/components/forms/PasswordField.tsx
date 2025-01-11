@@ -43,7 +43,7 @@ const PasswordField = <T extends FieldValues>({
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute right-3 top-2 cursor-pointer p-1 transition-opacity hover:opacity-70"
+                className="absolute right-3 top-1.5 cursor-pointer p-1 transition-opacity hover:opacity-70"
                 title="Toggle Password Visibility"
               >
                 {showPassword ? <Eye /> : <EyeOff />}

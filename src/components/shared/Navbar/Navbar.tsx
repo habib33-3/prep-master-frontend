@@ -1,9 +1,12 @@
+import { useAuth } from "@/providers/AuthProvider";
 import { Link } from "react-router";
 
 // React Router
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
+  const { logout, user } = useAuth();
+
   return (
     <header className="bg-primary-foreground shadow-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
@@ -14,19 +17,39 @@ const Navbar = () => {
 
         {/* Mobile View: Button */}
         <div className="lg:hidden">
-          <Button className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-            <Link to="/login">Login</Link>
-          </Button>
+          {!user ? (
+            <Button className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
+              <Link to="/login">Login</Link>
+            </Button>
+          ) : (
+            <Button
+              className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          )}
         </div>
 
         {/* Desktop View: Navigation Links */}
         <div className="hidden space-x-6 lg:flex">
-          <Button variant={"default"}>
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button variant={"secondary"}>
-            <Link to="/signup">Sign Up</Link>
-          </Button>
+          {!user ? (
+            <>
+              <Button variant={"default"}>
+                <Link to="/sign-in">Login</Link>
+              </Button>
+              <Button variant={"secondary"}>
+                <Link to="/sign-up">Sign Up</Link>
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant={"destructive"}
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          )}
         </div>
 
         {/* Mobile Hamburger Menu */}
