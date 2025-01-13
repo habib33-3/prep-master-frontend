@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
+import { Toaster } from "sonner";
 
-import { Toaster } from "./components/ui/toaster";
 import "./index.css";
 import AuthProvider from "./providers/AuthProvider";
 import router from "./routers/Routers";
@@ -18,7 +18,10 @@ createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
+        <Toaster
+          richColors
+          position="top-center"
+        />
       </AuthProvider>
     </QueryClientProvider>
   </StrictMode>

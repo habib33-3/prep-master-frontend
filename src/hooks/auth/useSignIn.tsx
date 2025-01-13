@@ -1,9 +1,8 @@
 import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-
-import { useToast } from "@/hooks/use-toast";
 
 const signInFormSchema = z.object({
   email: z
@@ -17,7 +16,6 @@ const signInFormSchema = z.object({
 
 const useSignIn = () => {
   const { login } = useAuth();
-  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -32,10 +30,7 @@ const useSignIn = () => {
       const { email, password } = values;
 
       await login(email, password);
-      toast({
-        title: "Success",
-        description: "Logged in successfully",
-      });
+      toast.success("Signed in successfully");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessages: Record<string, string> = {
@@ -44,11 +39,7 @@ const useSignIn = () => {
         "auth/wrong-password": "Incorrect password.",
       };
       const errorMessage = errorMessages[error.code] || "Something went wrong.";
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      toast.error(errorMessage);
     }
   };
 

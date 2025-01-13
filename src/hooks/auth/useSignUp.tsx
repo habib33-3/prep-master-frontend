@@ -2,9 +2,8 @@ import { useAuth } from "@/providers/AuthProvider";
 import { saveUser } from "@/services/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-
-import { useToast } from "@/hooks/use-toast";
 
 const signUpFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -23,7 +22,6 @@ export const useSignUp = () => {
     defaultValues: { name: "", email: "", password: "" },
   });
   const { register } = useAuth();
-  const { toast } = useToast();
 
   const handleSignUp = async (values: z.infer<typeof signUpFormSchema>) => {
     try {
@@ -31,14 +29,9 @@ export const useSignUp = () => {
 
       await register(email, password, name);
 
-      const accessToken = await saveUser(email, name);
+      await saveUser(email, name);
 
-      console.log(accessToken);
-
-      toast({
-        title: "Success",
-        description: "User created successfully",
-      });
+      toast.success("Account created successfully");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessages: Record<string, string> = {
@@ -46,11 +39,7 @@ export const useSignUp = () => {
         "auth/weak-password": "Password is too weak.",
       };
       const errorMessage = errorMessages[error.code] || "Something went wrong.";
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      toast.error(errorMessage);
     }
   };
 
