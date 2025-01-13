@@ -59,6 +59,7 @@ const SignUpForm = () => {
             name="password"
           />
           <LoadingButton
+            type="submit"
             loading={form.formState.isSubmitting}
             title="Sign Up"
           />

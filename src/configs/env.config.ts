@@ -8,10 +8,13 @@ const envSchema = z.object({
   VITE_FIREBASE_STORAGE_BUCKET: z.string(),
   VITE_FIREBASE_MESSAGING_SENDER_ID: z.string(),
   VITE_FIREBASE_APP_ID: z.string(),
+  VITE_BACKEND_BASE_URL: z.string(),
 });
 
 // Parse and validate the environment variables
 const parsedEnv = envSchema.safeParse(import.meta.env);
+
+console.log(parsedEnv);
 
 if (!parsedEnv.success) {
   // eslint-disable-next-line no-console

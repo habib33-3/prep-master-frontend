@@ -1,4 +1,5 @@
 import { useAuth } from "@/providers/AuthProvider";
+import { saveUser } from "@/services/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,6 +30,11 @@ export const useSignUp = () => {
       const { email, name, password } = values;
 
       await register(email, password, name);
+
+      const accessToken = await saveUser(email, name);
+
+      console.log(accessToken);
+
       toast({
         title: "Success",
         description: "User created successfully",
