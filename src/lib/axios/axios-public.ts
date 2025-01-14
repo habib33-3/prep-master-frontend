@@ -15,7 +15,6 @@ axiosPublicInstance.interceptors.response.use(
     const rejectionError =
       error instanceof Error ? error : new Error("Unknown error occurred");
 
-    // eslint-disable-next-line no-console
     console.error("API error:", rejectionError);
 
     return Promise.reject(rejectionError);

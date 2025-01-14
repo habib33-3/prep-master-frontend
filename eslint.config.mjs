@@ -37,7 +37,7 @@ const eslintConfig = [
       },
     },
     rules: {
-      "no-console": "warn",
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
       "no-debugger": "error",
       "jsx-a11y/anchor-is-valid": [
         "error",

@@ -1,6 +1,7 @@
 import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -16,6 +17,7 @@ const signInFormSchema = z.object({
 
 const useSignIn = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -30,6 +32,7 @@ const useSignIn = () => {
       const { email, password } = values;
 
       await login(email, password);
+      navigate("/");
       toast.success("Signed in successfully");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

@@ -1,51 +1,58 @@
 import { useAuth } from "@/providers/AuthProvider";
 import { Link } from "react-router";
 
-// React Router
+import useLogOut from "@/hooks/auth/useLogOut";
+
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
-  const { logout, user } = useAuth();
+  const { user } = useAuth();
+  const { logOut } = useLogOut();
 
   return (
     <header className="bg-primary-foreground shadow-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <h1 className="bg-gradient-to-r from-primary/80 via-primary to-primary/60 bg-clip-text text-2xl font-semibold text-transparent">
+        <Link
+          to="/"
+          className="bg-gradient-to-r from-primary/80 via-primary to-primary/60 bg-clip-text text-2xl font-semibold text-transparent"
+        >
           PrepMaster
-        </h1>
+        </Link>
 
-        {/* Mobile View: Button */}
-        <div className="lg:hidden">
+        {/* Desktop View: Navigation Links */}
+        <div className="hidden space-x-6 lg:flex">
           {!user ? (
-            <Button className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-              <Link to="/login">Login</Link>
-            </Button>
+            <>
+              <Link to="/login">
+                <Button variant="default">Login</Button>
+              </Link>
+              <Link to="/sign-up">
+                <Button variant="secondary">Sign Up</Button>
+              </Link>
+            </>
           ) : (
             <Button
-              className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-              onClick={logout}
+              variant="destructive"
+              onClick={logOut}
             >
               Logout
             </Button>
           )}
         </div>
 
-        {/* Desktop View: Navigation Links */}
-        <div className="hidden space-x-6 lg:flex">
+        {/* Mobile View */}
+        <div className="lg:hidden">
           {!user ? (
-            <>
-              <Button variant={"default"}>
-                <Link to="/sign-in">Login</Link>
+            <Link to="/login">
+              <Button className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
+                Login
               </Button>
-              <Button variant={"secondary"}>
-                <Link to="/sign-up">Sign Up</Link>
-              </Button>
-            </>
+            </Link>
           ) : (
             <Button
-              variant={"destructive"}
-              onClick={logout}
+              className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              onClick={logOut}
             >
               Logout
             </Button>
@@ -54,7 +61,10 @@ const Navbar = () => {
 
         {/* Mobile Hamburger Menu */}
         <div className="flex items-center space-x-4 lg:hidden">
-          <button className="text-white focus:outline-none">
+          <button
+            className="text-white focus:outline-none"
+            aria-label="Open navigation menu"
+          >
             <span className="">menu</span>
           </button>
         </div>

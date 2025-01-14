@@ -1,7 +1,9 @@
+import { useEffect } from "react";
+
 import { useAuth } from "@/providers/AuthProvider";
-import { saveUser } from "@/services/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -21,6 +23,9 @@ export const useSignUp = () => {
     resolver: zodResolver(signUpFormSchema),
     defaultValues: { name: "", email: "", password: "" },
   });
+
+  const navigate = useNavigate();
+
   const { register } = useAuth();
 
   const handleSignUp = async (values: z.infer<typeof signUpFormSchema>) => {
@@ -29,7 +34,7 @@ export const useSignUp = () => {
 
       await register(email, password, name);
 
-      await saveUser(email, name);
+      navigate("/");
 
       toast.success("Account created successfully");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

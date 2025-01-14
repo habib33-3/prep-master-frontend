@@ -8,12 +8,17 @@ const useLogOut = () => {
   const { logout } = useAuth();
 
   const logOut = async () => {
-    await logout();
-    navigate("/sign-in");
-    toast.success("Signed out successfully");
+    try {
+      await logout();
+      navigate("/sign-in");
+      toast.success("Signed out successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
   };
 
-  return logOut;
+  return { logOut };
 };
 
 export default useLogOut;

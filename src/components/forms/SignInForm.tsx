@@ -47,6 +47,7 @@ const SignInForm = () => {
           />
 
           <LoadingButton
+            type="submit"
             loading={form.formState.isSubmitting}
             title="Sign In"
           />

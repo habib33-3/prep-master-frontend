@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { auth } from "@/configs/firebase.config";
+import { clearCookie, createToken, saveUser } from "@/services/api/auth";
 import {
   User,
   UserCredential,
@@ -18,6 +19,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+// Define the AuthContext type
 type AuthContextProps = {
   register: (
     email: string,
@@ -27,45 +29,99 @@ type AuthContextProps = {
   login: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
   user: User | null;
-} | null;
+};
 
-const AuthContext = createContext<AuthContextProps>(null);
+// Initialize the AuthContext
+const AuthContext = createContext<AuthContextProps | null>(null);
 
+// Define the provider component
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  const register = async (email: string, password: string, name: string) => {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    if (auth.currentUser) {
-      await updateProfile(auth.currentUser, {
-        displayName: name,
-      });
+  // Function to create a token for the user
+  const handleCreateToken = async (email: string): Promise<void> => {
+    try {
+      await createToken(email);
+    } catch (error) {
+      console.error("Error creating token:", error);
+      throw new Error("Failed to create a token. Please try again.");
     }
-    return userCredential;
   };
 
-  const login = async (email: string, password: string) => {
-    return await signInWithEmailAndPassword(auth, email, password);
+  // Register a new user
+  const register = async (
+    email: string,
+    password: string,
+    name: string
+  ): Promise<UserCredential> => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName: name });
+        await saveUser(email, name);
+        await handleCreateToken(email);
+      }
+
+      return userCredential;
+    } catch (error) {
+      console.error("Error during registration:", error);
+      throw new Error("Registration failed. Please try again.");
+    }
   };
 
-  const logout = async () => {
-    return await signOut(auth);
+  // Login a user
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<UserCredential> => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await handleCreateToken(email);
+
+      return userCredential;
+    } catch (error) {
+      console.error("Error during login:", error);
+      throw new Error("Login failed. Please check your credentials.");
+    }
   };
 
+  // Logout the current user
+  const logout = async (): Promise<void> => {
+    try {
+      await clearCookie();
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error during logout:", error);
+      throw new Error("Logout failed. Please try again.");
+    }
+  };
+
+  // Monitor auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      setCurrentUser(user || null);
     });
 
     return () => unsubscribe();
   }, []);
 
+  // Memoize context values
   const authValues = useMemo(
-    () => ({ register, login, logout, user: currentUser }),
+    () => ({
+      register,
+      login,
+      logout,
+      user: currentUser,
+    }),
     [currentUser]
   );
 
@@ -74,9 +130,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default AuthProvider;
-
-export const useAuth = () => {
+export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -85,3 +139,5 @@ export const useAuth = () => {
 
   return context;
 };
+
+export default AuthProvider;
