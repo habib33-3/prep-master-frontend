@@ -1,17 +1,10 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { auth } from "@/configs/firebase.config";
 import { clearCookie, createToken, saveUser } from "@/services/api/auth";
+import type { User, UserCredential } from "firebase/auth";
 import {
-  User,
-  UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -122,6 +115,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       logout,
       user: currentUser,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
   );
 

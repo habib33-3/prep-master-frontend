@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

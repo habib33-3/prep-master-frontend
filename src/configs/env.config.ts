@@ -14,10 +14,7 @@ const envSchema = z.object({
 // Parse and validate the environment variables
 const parsedEnv = envSchema.safeParse(import.meta.env);
 
-console.log(parsedEnv);
-
 if (!parsedEnv.success) {
-  // eslint-disable-next-line no-console
   console.error(
     "❌ Invalid Firebase environment variables:",
     parsedEnv.error.format()
