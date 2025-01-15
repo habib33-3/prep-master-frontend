@@ -45,7 +45,7 @@ const eslintConfig = [
           : undefined,
       },
       globals: {
-        process: "readonly", 
+        process: "readonly",
         ...globals.es2021,
         ...globals.node,
         browser: true,
@@ -102,7 +102,13 @@ const eslintConfig = [
       "no-shadow": "error",
       "object-shorthand": "error",
       "no-nested-ternary": "error",
-      "prefer-destructuring": ["error", { object: true, array: false }],
+      "prefer-destructuring": [
+        "error",
+        {
+          object: true,
+          array: false,
+        },
+      ],
       "no-useless-rename": "error",
       "prefer-template": "error",
       "no-implicit-globals": "error",

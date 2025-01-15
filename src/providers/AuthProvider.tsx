@@ -1,6 +1,7 @@
 import {
   type ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -48,51 +49,52 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Register a new user
-  const register = async (
-    email: string,
-    password: string,
-    name: string
-  ): Promise<UserCredential> => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+  const register = useCallback(
+    async (
+      email: string,
+      password: string,
+      name: string
+    ): Promise<UserCredential> => {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, { displayName: name });
-        await saveUser(email, name);
-        await handleCreateToken(email);
+        if (auth.currentUser) {
+          await updateProfile(auth.currentUser, { displayName: name });
+          await saveUser(email, name);
+          await handleCreateToken(email);
+        }
+
+        return userCredential;
+      } catch (error) {
+        console.error("Error during registration:", error);
+        throw new Error("Registration failed. Please try again.");
       }
+    },
+    []
+  );
 
-      return userCredential;
-    } catch (error) {
-      console.error("Error during registration:", error);
-      throw new Error("Registration failed. Please try again.");
-    }
-  };
+  const login = useCallback(
+    async (email: string, password: string): Promise<UserCredential> => {
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await handleCreateToken(email);
 
-  // Login a user
-  const login = async (
-    email: string,
-    password: string
-  ): Promise<UserCredential> => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      await handleCreateToken(email);
-
-      return userCredential;
-    } catch (error) {
-      console.error("Error during login:", error);
-      throw new Error("Login failed. Please check your credentials.");
-    }
-  };
+        return userCredential;
+      } catch (error) {
+        console.error("Error during login:", error);
+        throw new Error("Login failed. Please check your credentials.");
+      }
+    },
+    []
+  );
 
   // Logout the current user
   const logout = async (): Promise<void> => {
@@ -122,8 +124,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       logout,
       user: currentUser,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
+
+    [currentUser, login, register]
   );
 
   return (
