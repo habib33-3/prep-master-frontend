@@ -18,17 +18,15 @@ const LoadingButton = ({
   className,
   type = "button",
   ...props
-}: Props) => {
-  return (
-    <Button
-      {...props}
-      className={cn("flex items-center", className)}
-      disabled={disabled || loading}
-      type={type}
-    >
-      {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : title}
-    </Button>
-  );
-};
+}: Props) => (
+  <Button
+    {...props}
+    className={cn("flex items-center", className)}
+    disabled={disabled || loading}
+    type={type}
+  >
+    {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : title}
+  </Button>
+);
 
 export default LoadingButton;

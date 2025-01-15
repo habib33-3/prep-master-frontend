@@ -2,11 +2,12 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 import tseslint from "@typescript-eslint/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
 import regexpPlugin from "eslint-plugin-regexp";
 import globals from "globals";
 import path from "node:path";
+import process from "node:process";
 import { fileURLToPath } from "node:url";
-import process from 'node:process';
 
 // Import the plugin
 
@@ -32,7 +33,6 @@ const eslintConfig = [
     "plugin:tailwindcss/recommended"
   ),
   {
-   
     files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
     languageOptions: {
       parser: tseslint.parser,
@@ -59,6 +59,15 @@ const eslintConfig = [
       react: {
         version: "detect",
       },
+      // "import/resolver": {
+      //   node: {
+      //     paths: ["src"], // Ensure this matches your project structure
+      //   },
+      //   typescript: {
+      //     alwaysTryTypes: true,
+      //     project: "./tsconfig.json", // Path to your tsconfig file
+      //   },
+      // },
     },
     rules: {
       "no-console": ["warn", { allow: ["warn", "error"] }],
@@ -75,12 +84,7 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
-          args: "all",
-          argsIgnorePattern: "^_",
-          caughtErrors: "all",
-          caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
+          args: "none",
           ignoreRestSiblings: true,
         },
       ],
@@ -103,12 +107,33 @@ const eslintConfig = [
       ],
       "regexp/prefer-regexp-exec": "error",
       "regexp/prefer-regexp-test": "error",
+      "consistent-return": "error",
+      "arrow-body-style": ["error", "as-needed"],
+      "no-else-return": "error",
+      "no-shadow": "error",
+      "object-shorthand": "error",
+      "no-nested-ternary": "error",
+      "prefer-destructuring": ["error", { object: true, array: false }],
+      "no-useless-rename": "error",
+      "prefer-template": "error",
+      "no-implicit-globals": "error",
+
+      // "import/no-unresolved":[
+      //   "error",
+      //   {
+      //     ignore: ["^@/"],  // Add your alias here
+      //   },
+      // ],
+      "no-new-wrappers": "error",
+      "no-lone-blocks": "error",
+      "prefer-regex-literals": "error",
     },
   },
   {
     plugins: {
       "@tanstack/query": pluginQuery,
       regexp: regexpPlugin, // Add the plugin here
+      import: importPlugin,
     },
     rules: {
       "@tanstack/query/exhaustive-deps": "error",
