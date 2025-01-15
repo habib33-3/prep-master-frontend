@@ -9,8 +9,6 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-// Import the plugin
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -47,7 +45,7 @@ const eslintConfig = [
           : undefined,
       },
       globals: {
-        process: "readonly", // Keep process as readonly globally
+        process: "readonly", 
         ...globals.es2021,
         ...globals.node,
         browser: true,
@@ -59,15 +57,6 @@ const eslintConfig = [
       react: {
         version: "detect",
       },
-      // "import/resolver": {
-      //   node: {
-      //     paths: ["src"], // Ensure this matches your project structure
-      //   },
-      //   typescript: {
-      //     alwaysTryTypes: true,
-      //     project: "./tsconfig.json", // Path to your tsconfig file
-      //   },
-      // },
     },
     rules: {
       "no-console": ["warn", { allow: ["warn", "error"] }],
@@ -117,16 +106,10 @@ const eslintConfig = [
       "no-useless-rename": "error",
       "prefer-template": "error",
       "no-implicit-globals": "error",
-
-      // "import/no-unresolved":[
-      //   "error",
-      //   {
-      //     ignore: ["^@/"],  // Add your alias here
-      //   },
-      // ],
       "no-new-wrappers": "error",
       "no-lone-blocks": "error",
       "prefer-regex-literals": "error",
+      "no-duplicate-imports": ["error"],
     },
   },
   {
