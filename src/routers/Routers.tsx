@@ -1,9 +1,10 @@
-import RootLayout from "@/layout/RootLayout";
 import { createBrowserRouter } from "react-router";
 
 import Home from "@/pages/HomePage/HomePage";
 import SignInPage from "@/pages/SignInPage/SignInPage";
 import SignUpPage from "@/pages/SignUpPage/SignUpPage";
+
+import RootLayout from "@/layout/RootLayout";
 
 const router = createBrowserRouter([
   {

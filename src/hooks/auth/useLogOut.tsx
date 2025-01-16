@@ -1,6 +1,7 @@
-import { useAuth } from "@/providers/AuthProvider";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+
+import { useAuth } from "@/providers/AuthProvider";
 
 const useLogOut = () => {
   const navigate = useNavigate();

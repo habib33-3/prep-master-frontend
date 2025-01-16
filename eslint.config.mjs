@@ -137,23 +137,25 @@ const eslintConfig = [
     "plugin:react-hooks/recommended", // Enforce React hooks rules.
     "plugin:jsx-a11y/recommended", // Enforce accessibility rules.
     "plugin:@typescript-eslint/recommended", // Extend TypeScript's recommended rules.
-    "plugin:tailwindcss/recommended" // Extend Tailwind CSS rules.
+    "plugin:tailwindcss/recommended" // Extend Tailwind CSS's recommended rules.
   ),
-  fileConfigs, // Include file-specific ESLint configurations.
+  fileConfigs, // Apply base file rules.
   {
     plugins: {
-      "@tanstack/query": pluginQuery, // Include TanStack query plugin.
-      regexp: regexpPlugin, // Include regexp plugin.
-      import: importPlugin, // Include import plugin for managing imports.
+      "@tanstack/query": pluginQuery,
+      regexp: regexpPlugin,
+      import: importPlugin, // Add ESLint import plugin.
     },
     rules: {
-      "@tanstack/query/exhaustive-deps": "error", // Enforce exhaustive deps rule for TanStack query.
+      "@tanstack/query/exhaustive-deps": "error", // Enforce exhaustive dependencies for query hooks.
+      "import/order": "off", // Turn off ESLint's import sorting rule.
+      // Additional custom ESLint rules can be added here.
     },
   },
-  nodeModulesAndDistRules, // Include rules for `node_modules` and `dist` directories.
+  nodeModulesAndDistRules, // Apply specific rules for node_modules and dist directories.
   {
-    ignores: ["node_modules", "dist", "**/*.json", "**/*.md"], // Ignore certain files/folders from linting.
+    ignores: ["node_modules", "dist", "**/*.json", "**/*.md"], // Ignore specific file types.
   },
 ];
 
-export default eslintConfig; // Export the ESLint configuration.
+export default eslintConfig;

@@ -30,6 +30,10 @@
     "^@/styles/(.*)$",
     "^@/utils/(.*)$",
     "^@/types/(.*)$",
+    "^@/assets/(.*)$",
+    "^@/(.*)$",
     "^[./]"
-  ]
+  ],
+  "importOrderCaseInsensitive": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]
 }

@@ -1,5 +1,6 @@
-import { env } from "@/configs/env.config";
 import axios from "axios";
+
+import { env } from "@/configs/env.config";
 
 const BACKEND_BASE_URL = env.VITE_BACKEND_BASE_URL;
 

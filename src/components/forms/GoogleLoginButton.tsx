@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import { useAuth } from "@/providers/AuthProvider";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
+
+import { useAuth } from "@/providers/AuthProvider";
 
 import LoadingButton from "../LoadingButton";
 

@@ -1,9 +1,10 @@
-import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
+
+import { useAuth } from "@/providers/AuthProvider";
 
 const signUpFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),

@@ -1,6 +1,6 @@
 import {
-  type ReactNode,
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -8,19 +8,20 @@ import {
   useState,
 } from "react";
 
-import { auth } from "@/configs/firebase.config";
-import { clearCookie, createToken, saveUser } from "@/services/api/auth";
 import {
-  GoogleAuthProvider,
-  type User,
-  type UserCredential,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
+  type User,
+  type UserCredential,
 } from "firebase/auth";
+
+import { auth } from "@/configs/firebase.config";
+import { clearCookie, createToken, saveUser } from "@/services/api/auth";
 
 type AuthContextProps = {
   register: (

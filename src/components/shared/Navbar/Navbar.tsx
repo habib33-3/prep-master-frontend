@@ -1,9 +1,10 @@
-import { useAuth } from "@/providers/AuthProvider";
 import { Link } from "react-router";
 
 import useLogOut from "@/hooks/auth/useLogOut";
 
 import { Button } from "@/components/ui/button";
+
+import { useAuth } from "@/providers/AuthProvider";
 
 const Navbar = () => {
   const { user } = useAuth();
