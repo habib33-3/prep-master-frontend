@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import GoogleLoginButton from "./GoogleLoginButton";
 import PasswordField from "./PasswordField";
 
 const SignInForm = () => {
@@ -53,6 +54,7 @@ const SignInForm = () => {
           />
         </form>
       </Form>
+      <GoogleLoginButton />
     </div>
   );
 };

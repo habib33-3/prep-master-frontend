@@ -11,16 +11,17 @@ import {
 import { auth } from "@/configs/firebase.config";
 import { clearCookie, createToken, saveUser } from "@/services/api/auth";
 import {
+  GoogleAuthProvider,
   type User,
   type UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 
-// Define the AuthContext type
 type AuthContextProps = {
   register: (
     email: string,
@@ -30,16 +31,16 @@ type AuthContextProps = {
   login: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
   user: User | null;
+  googleLogin: () => Promise<UserCredential>;
 };
 
-// Initialize the AuthContext
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-// Define the provider component
+const googleProvider = new GoogleAuthProvider();
+
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  // Function to create a token for the user
   const handleCreateToken = async (email: string): Promise<void> => {
     try {
       await createToken(email);
@@ -96,7 +97,21 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     []
   );
 
-  // Logout the current user
+  const googleLogin = useCallback(async (): Promise<UserCredential> => {
+    try {
+      const user = await signInWithPopup(auth, googleProvider);
+
+      await saveUser(user.user.email!, user.user.displayName!);
+
+      await handleCreateToken(user.user.email!);
+
+      return user;
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      throw new Error("Google login failed. Please try again.");
+    }
+  }, []);
+
   const logout = async (): Promise<void> => {
     try {
       await clearCookie();
@@ -107,7 +122,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Monitor auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user || null);
@@ -116,16 +130,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
-  // Memoize context values
   const authValues = useMemo(
     () => ({
       register,
       login,
       logout,
       user: currentUser,
+      googleLogin,
     }),
 
-    [currentUser, login, register]
+    [currentUser, googleLogin, login, register]
   );
 
   return (

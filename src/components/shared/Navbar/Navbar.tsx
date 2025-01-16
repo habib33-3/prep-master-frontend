@@ -24,7 +24,7 @@ const Navbar = () => {
         <div className="hidden space-x-6 lg:flex">
           {!user ? (
             <>
-              <Link to="/login">
+              <Link to="/sign-in">
                 <Button variant="default">Login</Button>
               </Link>
               <Link to="/sign-up">
@@ -44,7 +44,7 @@ const Navbar = () => {
         {/* Mobile View */}
         <div className="lg:hidden">
           {!user ? (
-            <Link to="/login">
+            <Link to="/sign-in">
               <Button className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
                 Login
               </Button>
