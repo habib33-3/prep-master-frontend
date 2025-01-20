@@ -5,3 +5,13 @@ export interface SuccessResponse<T> {
   data: T;
   timestamp: string;
 }
+
+export interface ExerciseType {
+  id: string;
+  questionText: string;
+  answerText: string;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  topicName: string;
+  tagList: string[];
+  createdBy: string;
+}
