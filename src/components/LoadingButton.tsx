@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "./ui/button";
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+type Props = {
   loading: boolean;
   title?: string;
   children?: ReactNode;
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const LoadingButton = ({
   disabled = false,

@@ -13,11 +13,11 @@ import {
   CardTitle,
 } from "../ui/card";
 
-interface Props {
+type Props = {
   questionData: ExerciseType;
   isModalOpen: boolean;
   setOpenModalId: Dispatch<SetStateAction<string | null>>;
-}
+};
 
 const ExerciseCard = ({ questionData, isModalOpen, setOpenModalId }: Props) => {
   const { id, questionText, topicName } = questionData;

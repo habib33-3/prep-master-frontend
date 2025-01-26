@@ -1,12 +1,12 @@
-export interface SuccessResponse<T> {
+export type SuccessResponse<T> = {
   status: number;
   message: string;
   path: string;
   data: T;
   timestamp: string;
-}
+};
 
-export interface ExerciseType {
+export type ExerciseType = {
   id: string;
   questionText: string;
   answerText: string;
@@ -14,4 +14,4 @@ export interface ExerciseType {
   topicName: string;
   tagList: string[];
   createdBy: string;
-}
+};

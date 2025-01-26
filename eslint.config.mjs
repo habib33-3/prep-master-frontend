@@ -36,9 +36,15 @@ const baseRules = {
     { aspects: ["invalidHref", "preferButton"] },
   ], // Accessibility rule for anchor tags.
   "@typescript-eslint/no-unused-vars": [
-    "warn",
-    { args: "none", ignoreRestSiblings: true, errorOnUnusedParameters: true },
-  ], // Warn about unused variables.
+  "warn",
+  {
+    args: "none", // Ignore unused function arguments.
+    ignoreRestSiblings: true, // Ignore unused variables after a rest parameter in destructuring.
+    varsIgnorePattern: "^_", // Ignore variables that start with an underscore (often used for unused variables).
+    caughtErrors: "all", // Apply the rule to all caught errors in try-catch blocks.
+    argsIgnorePattern: "^_", // Ignore function parameters that start with an underscore.
+  },
+], // Warn about unused variables.
   "@typescript-eslint/explicit-module-boundary-types": "off", // Turn off requirement for explicit module boundary types.
   "react/react-in-jsx-scope": "off", // Turn off react scope check in JSX (for Next.js support).
   "react/prop-types": "off", // Disable prop types check for React (TypeScript handles types).

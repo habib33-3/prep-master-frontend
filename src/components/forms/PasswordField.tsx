@@ -12,10 +12,10 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-interface PasswordFieldProps<T extends FieldValues> {
+type PasswordFieldProps<T extends FieldValues> = {
   form: { control: Control<T> }; // Generic control type
   name: Path<T>; // Add the `name` prop and ensure it matches the schema keys
-}
+};
 
 const PasswordField = <T extends FieldValues>({
   form,

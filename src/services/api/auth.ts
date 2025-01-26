@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { axiosPublicInstance } from "@/lib/axios/axios-public";
 
-interface ApiResponse<T = any> {
+type ApiResponse<T = any> = {
   success: boolean;
   data?: T;
   message?: string;
-}
+};
 
 export const saveUser = async (
   email: string,
