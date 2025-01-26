@@ -37,7 +37,7 @@ const baseRules = {
   ], // Accessibility rule for anchor tags.
   "@typescript-eslint/no-unused-vars": [
     "warn",
-    { args: "none", ignoreRestSiblings: true },
+    { args: "none", ignoreRestSiblings: true, errorOnUnusedParameters: true },
   ], // Warn about unused variables.
   "@typescript-eslint/explicit-module-boundary-types": "off", // Turn off requirement for explicit module boundary types.
   "react/react-in-jsx-scope": "off", // Turn off react scope check in JSX (for Next.js support).
@@ -72,6 +72,7 @@ const baseRules = {
   "no-lone-blocks": "error", // Disallow unnecessary blocks.
   "prefer-regex-literals": "error", // Prefer using regular expression literals over `RegExp` constructor.
   "no-duplicate-imports": ["error"], // Disallow duplicate imports.
+  "@typescript-eslint/consistent-type-definitions": ["error", "type"],
 };
 
 // Define file-specific ESLint configurations for JavaScript/TypeScript files.
