@@ -1,6 +1,7 @@
 import useSignIn from "@/hooks/auth/useSignIn";
 
 import LoadingButton from "../LoadingButton";
+import PasswordField from "../shared/FormField/PasswordField";
 import {
   Form,
   FormControl,
@@ -11,7 +12,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import GoogleLoginButton from "./GoogleLoginButton";
-import PasswordField from "./PasswordField";
 
 const SignInForm = () => {
   const { form, handleSignIn } = useSignIn();

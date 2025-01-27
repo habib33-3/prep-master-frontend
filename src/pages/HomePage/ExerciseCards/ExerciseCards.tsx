@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import useGetAllExercise from "@/hooks/exericse/useGetAllExercise";
+import useGetAllExercise from "@/hooks/exercise/useGetAllExercise";
 
 import ExerciseCard from "@/components/cards/ExerciseCard";
 
