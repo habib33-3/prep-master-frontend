@@ -2,6 +2,8 @@ import type { Dispatch, SetStateAction } from "react";
 
 import { XIcon } from "lucide-react";
 
+import Toolbox from "@/pages/HomePage/ExerciseCards/Toolbox";
+
 import { type ExerciseType } from "@/types";
 
 import { Button } from "../ui/button";
@@ -13,50 +15,52 @@ import {
   CardTitle,
 } from "../ui/card";
 
-type Props = {
+type AnswerModalProps = {
   answer: ExerciseType;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const AnswerModal = ({ answer, setIsModalOpen }: Props) => {
-  const { answerText, questionText, topicName, tagList: tags } = answer;
+const AnswerModal = ({ answer, setIsModalOpen }: AnswerModalProps) => {
+  const { answerText, questionText, topicName, tagList: tags, id } = answer;
 
-  const onDelete = () => {
+  const onClose = () => {
     setIsModalOpen(false);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <Card className="mx-auto max-w-md rounded-lg border shadow-lg">
-        <CardHeader className="flex items-start justify-between border-b p-4">
-          <CardTitle className="text-lg font-semibold text-gray-800">
+      <Card className="relative mx-auto w-[600px] overflow-hidden rounded-2xl border shadow-xl">
+        <Toolbox id={id} />
+
+        <CardHeader className="flex items-start justify-between border-b p-5">
+          <CardTitle className="text-xl font-semibold text-gray-900">
             {topicName}
           </CardTitle>
           <Button
             variant="ghost"
             className="p-2 text-gray-500 hover:text-gray-700"
-            onClick={onDelete}
+            onClick={onClose}
           >
-            <XIcon className="size-5" />
+            <XIcon size={18} />
           </Button>
         </CardHeader>
 
-        <CardContent className="p-4">
-          <div className="mb-4">
+        <CardContent className="overflow-x-auto p-5">
+          <div className="mb-4 min-w-[500px]">
             <p className="font-medium text-gray-700">Question:</p>
-            <p className="text-gray-900">{questionText}</p>
+            <p className="mt-1 text-gray-900">{questionText}</p>
           </div>
-          <div>
+          <div className="min-w-[500px]">
             <p className="font-medium text-gray-700">Answer:</p>
-            <p className="text-gray-900">{answerText}</p>
+            <p className="mt-1 text-gray-900">{answerText}</p>
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-wrap gap-2 border-t p-4">
+        <CardFooter className="flex flex-wrap gap-2 overflow-x-auto border-t p-5">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-gray-200 px-2 py-1 text-sm text-gray-700"
+              className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700 shadow-sm"
             >
               #{tag}
             </span>

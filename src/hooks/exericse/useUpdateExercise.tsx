@@ -6,14 +6,14 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { exerciseKey } from "@/constants";
-import { useAuth } from "@/providers/AuthProvider";
-import { createExerciseApi } from "@/services/api/exercise";
+import { updateExerciseApi } from "@/services/api/exercise";
 
-const CreateExerciseFormSchema = z.object({
-  questionText: z.string().min(1, "Question text is required"),
-  answerText: z.string().min(1, "Answer text is required"),
-  difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
-  topicName: z.string().min(1, "Topic name is required"),
+// Update the schema to make fields optional
+const UpdateExerciseFormSchema = z.object({
+  questionText: z.string().min(1, "Question text is required").optional(), // Optional
+  answerText: z.string().min(1, "Answer text is required").optional(), // Optional
+  difficulty: z.enum(["EASY", "MEDIUM", "HARD"]).optional(), // Optional
+  topicName: z.string().min(1, "Topic name is required").optional(), // Optional
   tagList: z
     .union([
       z.string(), // Allow a string (comma-separated)
@@ -28,15 +28,18 @@ const CreateExerciseFormSchema = z.object({
               .map((tag) => tag.trim())
               .filter((tag) => tag !== "") // Filter out empty strings
           : tagList.map((tag) => tag.trim()) // For array, just trim each element
-    ),
+    )
+    .optional(), // Optional
 });
 
-const useCreateExerciseForm = () => {
+const useUpdateExerciseForm = (
+  existingExercise?: z.infer<typeof UpdateExerciseFormSchema>
+) => {
   const navigator = useNavigate();
 
-  const form = useForm<z.infer<typeof CreateExerciseFormSchema>>({
-    resolver: zodResolver(CreateExerciseFormSchema),
-    defaultValues: {
+  const form = useForm<z.infer<typeof UpdateExerciseFormSchema>>({
+    resolver: zodResolver(UpdateExerciseFormSchema),
+    defaultValues: existingExercise || {
       questionText: "",
       answerText: "",
       difficulty: "EASY",
@@ -45,34 +48,34 @@ const useCreateExerciseForm = () => {
     },
   });
 
-  const { user } = useAuth();
-
   const { mutate, isPending, isError, isSuccess, error, data } = useMutation({
-    mutationFn: async (values: z.infer<typeof CreateExerciseFormSchema>) =>
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      await createExerciseApi({ ...values, createdBy: user?.email! }),
+    mutationFn: async ({
+      id,
+      ...values
+    }: z.infer<typeof UpdateExerciseFormSchema> & { id: string }) =>
+      await updateExerciseApi(id, values), // Use update API
     mutationKey: [exerciseKey],
     onError: () => {
-      toast.error("Something went wrong");
+      toast.error("Failed to update exercise");
     },
     onSuccess: () => {
-      // Optionally handle success logic here (like clearing form or showing success message)
-      toast.success("Exercise created successfully");
+      toast.success("Exercise updated successfully");
 
       form.reset(); // Clear the form after successful submission
       navigator("/");
     },
   });
 
-  const handleCreateExercise = (
-    values: z.infer<typeof CreateExerciseFormSchema>
+  const handleUpdateExercise = (
+    id: string,
+    values: z.infer<typeof UpdateExerciseFormSchema>
   ) => {
-    mutate(values);
+    mutate({ id, ...values }); // Include id in the payload
   };
 
   return {
     form,
-    handleCreateExercise,
+    handleUpdateExercise,
     isPending,
     isError,
     isSuccess,
@@ -81,4 +84,4 @@ const useCreateExerciseForm = () => {
   };
 };
 
-export default useCreateExerciseForm;
+export default useUpdateExerciseForm;

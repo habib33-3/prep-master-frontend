@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import useCreateExerciseForm from "@/hooks/exericse/useCreateExerciseForm";
 
 import { Button } from "../ui/button";
@@ -27,9 +29,13 @@ import { Input } from "../ui/input";
 
 const CreateExerciseModal = () => {
   const { form, handleCreateExercise, isPending } = useCreateExerciseForm();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <DialogTrigger className="my-6">
         <Button variant={"secondary"}> Add Question</Button>
       </DialogTrigger>

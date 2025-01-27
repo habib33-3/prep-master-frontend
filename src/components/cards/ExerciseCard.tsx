@@ -1,5 +1,7 @@
 import { type Dispatch, type SetStateAction } from "react";
 
+import Toolbox from "@/pages/HomePage/ExerciseCards/Toolbox";
+
 import { type ExerciseType } from "@/types";
 
 import AnswerModal from "../modal/AnswerModal";
@@ -24,12 +26,16 @@ const ExerciseCard = ({ questionData, isModalOpen, setOpenModalId }: Props) => {
 
   return (
     <div className="relative">
-      <Card className="mx-auto w-full max-w-sm p-4">
+      <Card className="mx-auto w-full max-w-sm rounded-2xl border border-gray-200 p-4 shadow-lg">
+        <Toolbox id={id} />
+
         <CardHeader>
-          <Badge className="w-max text-sm">{topicName}</Badge>
+          <Badge className="w-max bg-green-100 text-sm text-green-700">
+            {topicName}
+          </Badge>
         </CardHeader>
         <CardContent className="text-center">
-          <CardTitle className="text-justify text-lg font-medium">
+          <CardTitle className="text-justify text-lg font-medium text-gray-800">
             {questionText}
           </CardTitle>
         </CardContent>
@@ -37,6 +43,7 @@ const ExerciseCard = ({ questionData, isModalOpen, setOpenModalId }: Props) => {
           <Button
             onClick={() => setOpenModalId(id)}
             variant="outline"
+            className="border-blue-600 text-blue-600 hover:bg-blue-50"
           >
             View Answer
           </Button>
