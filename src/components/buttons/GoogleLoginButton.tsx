@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/providers/AuthProvider";
 
-import LoadingButton from "../LoadingButton";
+import LoadingButton from "./LoadingButton";
 
 const GoogleLoginButton = () => {
   const { googleLogin } = useAuth();

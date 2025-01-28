@@ -1,9 +1,10 @@
 import useCreateExerciseForm from "@/hooks/exercise/useCreateExerciseForm";
 
-import DropdownFields from "../shared/FormField/DropdownFields";
-import TextInputField from "../shared/FormField/TextInputField";
-import { Button } from "../ui/button";
-import { Form } from "../ui/form";
+import { Button } from "@/ui/button";
+import { Form } from "@/ui/form";
+
+import DropdownFields from "@/shared/FormField/DropdownFields";
+import TextInputField from "@/shared/FormField/TextInputField";
 
 const CreateExerciseForm = () => {
   const { form, handleCreateExercise, isPending } = useCreateExerciseForm();

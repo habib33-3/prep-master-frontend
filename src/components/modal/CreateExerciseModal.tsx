@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import CreateExerciseForm from "../forms/CreateExerciseForm";
+import CreateExerciseForm from "../forms/exercise/CreateExerciseForm";
 import { Button } from "../ui/button";
 import {
   Dialog,

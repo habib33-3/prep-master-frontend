@@ -1,17 +1,20 @@
+import { Form } from "react-router";
+
 import useSignIn from "@/hooks/auth/useSignIn";
 
-import LoadingButton from "../LoadingButton";
-import PasswordField from "../shared/FormField/PasswordField";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import GoogleLoginButton from "./GoogleLoginButton";
+} from "@/ui/form";
+import { Input } from "@/ui/input";
+
+import PasswordField from "@/shared/FormField/PasswordField";
+
+import GoogleLoginButton from "@/buttons/GoogleLoginButton";
+import LoadingButton from "@/buttons/LoadingButton";
 
 const SignInForm = () => {
   const { form, handleSignIn } = useSignIn();

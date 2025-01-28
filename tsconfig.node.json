@@ -2,6 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/ui/*": ["./src/components/ui/*"],
+      "@/shared/*": ["./src/components/shared/*"],
+      "@/buttons/*": ["./src/components/buttons/*"],
+      "@/cards/*": ["./src/components/cards/*"],
+      "@/forms/*": ["./src/components/forms/*"],
       "@/*": ["./src/*"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",

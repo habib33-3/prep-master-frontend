@@ -7,8 +7,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/ui": ["./src/components/ui/*"],
+      "@/ui/*": ["./src/components/ui/*"],
+      "@/shared/*": ["./src/components/shared/*"],
+      "@/buttons/*": ["./src/components/buttons/*"],
+      "@/cards/*": ["./src/components/cards/*"],
+      "@/forms/*": ["./src/components/forms/*"],
       "@/*": ["./src/*"]
-    }
+    },
   }
 }
