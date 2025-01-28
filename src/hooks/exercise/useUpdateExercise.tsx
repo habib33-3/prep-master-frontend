@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -10,10 +11,10 @@ import { updateExerciseApi } from "@/services/api/exercise";
 
 // Update the schema to make fields optional
 const UpdateExerciseFormSchema = z.object({
-  questionText: z.string().min(1, "Question text is required").optional(), // Optional
-  answerText: z.string().min(1, "Answer text is required").optional(), // Optional
+  questionText: z.string().optional(), // Optional, no length check
+  answerText: z.string().optional(), // Optional, no length check
   difficulty: z.enum(["EASY", "MEDIUM", "HARD"]).optional(), // Optional
-  topicName: z.string().min(1, "Topic name is required").optional(), // Optional
+  topicName: z.string().optional(), // Optional, no length check
   tagList: z
     .union([
       z.string(), // Allow a string (comma-separated)
@@ -32,14 +33,12 @@ const UpdateExerciseFormSchema = z.object({
     .optional(), // Optional
 });
 
-const useUpdateExerciseForm = (
-  existingExercise?: z.infer<typeof UpdateExerciseFormSchema>
-) => {
+const useUpdateExerciseForm = (id: string) => {
   const navigator = useNavigate();
 
   const form = useForm<z.infer<typeof UpdateExerciseFormSchema>>({
     resolver: zodResolver(UpdateExerciseFormSchema),
-    defaultValues: existingExercise || {
+    defaultValues: {
       questionText: "",
       answerText: "",
       difficulty: "EASY",
@@ -54,7 +53,7 @@ const useUpdateExerciseForm = (
       ...values
     }: z.infer<typeof UpdateExerciseFormSchema> & { id: string }) =>
       await updateExerciseApi(id, values), // Use update API
-    mutationKey: [exerciseKey],
+    mutationKey: [exerciseKey, id],
     onError: () => {
       toast.error("Failed to update exercise");
     },

@@ -17,3 +17,9 @@ export const updateExerciseApi = async (
   id: string,
   exercise: Partial<ExerciseType>
 ) => await axiosProtectedInstance.put(`/exercise/${id}`, exercise);
+
+export const getSingleExercise = async (id: string): Promise<ExerciseType> => {
+  const res = await axiosProtectedInstance.get(`/exercise/${id}`);
+
+  return await res.data.data;
+};

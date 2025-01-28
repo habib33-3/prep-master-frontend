@@ -10,12 +10,12 @@ import { Input } from "@/components/ui/input";
 type Props = {
   name: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
 };
 
-const TextInputField = ({ control, label, name, placeholder }: Props) => (
+const TextInputField = ({ control, label, name, placeholder = "" }: Props) => (
   <FormField
     name={name}
     control={control}
