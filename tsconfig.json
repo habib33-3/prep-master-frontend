@@ -13,6 +13,6 @@
       "@/cards/*": ["./src/components/cards/*"],
       "@/forms/*": ["./src/components/forms/*"],
       "@/*": ["./src/*"]
-    },
+    }
   }
 }
