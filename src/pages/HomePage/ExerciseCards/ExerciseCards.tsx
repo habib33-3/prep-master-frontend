@@ -19,10 +19,7 @@ const ExerciseCards = () => {
     return <p>loading</p>;
   }
 
-  // Ensure exercises are defined and extract the data
   const exerciseList = exercises?.data || [];
-
-  console.log(exerciseList.data);
 
   if (exerciseList.length === 0) {
     return <p className="text-center text-gray-500">No exercises available</p>;

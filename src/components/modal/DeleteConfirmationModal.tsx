@@ -20,12 +20,7 @@ type Props = {
 const DeleteConfirmationModal = ({ handleDelete }: Props) => (
   <AlertDialog>
     <AlertDialogTrigger>
-      <Button
-        variant={"outline"}
-        size={"icon"}
-      >
-        <Trash2 />
-      </Button>
+      <Trash2 className="cursor-pointer" />
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>

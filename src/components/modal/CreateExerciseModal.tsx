@@ -19,9 +19,7 @@ const CreateExerciseModal = () => {
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <DialogTrigger className="my-6">
-        <Button variant={"secondary"}> Add Question</Button>
-      </DialogTrigger>
+      <DialogTrigger className="my-6">Add Question</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Exercise</DialogTitle>
