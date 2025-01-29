@@ -1,12 +1,16 @@
-import { Edit, Trash2 } from "lucide-react";
+import { Edit } from "lucide-react";
 import { Link } from "react-router";
+
+import useDeleteExercise from "@/hooks/exercise/useDeleteExercise";
+
+import DeleteConfirmationModal from "@/components/modal/DeleteConfirmationModal";
 
 type Props = {
   id: string;
 };
 
 const Toolbox = ({ id }: Props) => {
-  const handleDelete = (exerciseId: string) => {};
+  const { handleDeleteExercise } = useDeleteExercise(id);
 
   return (
     <div className="absolute right-3 top-3 flex space-x-2">
@@ -15,12 +19,7 @@ const Toolbox = ({ id }: Props) => {
           <Edit size={16} />
         </button>
       </Link>
-      <button
-        onClick={() => handleDelete(id)}
-        className="rounded-full bg-red-100 p-2 text-red-600 hover:bg-red-200"
-      >
-        <Trash2 size={16} />
-      </button>
+      <DeleteConfirmationModal handleDelete={handleDeleteExercise} />
     </div>
   );
 };

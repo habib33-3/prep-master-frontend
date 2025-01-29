@@ -23,3 +23,6 @@ export const getSingleExercise = async (id: string): Promise<ExerciseType> => {
 
   return await res.data.data;
 };
+
+export const deleteExercise = async (id: string) =>
+  await axiosProtectedInstance.delete(`/exercise/${id}`);
