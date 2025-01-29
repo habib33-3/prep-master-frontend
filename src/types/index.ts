@@ -15,3 +15,9 @@ export type ExerciseType = {
   tagList: string[];
   createdBy: string;
 };
+
+export type PaginationInput = {
+  searchText?: string;
+  pageNo?: number;
+  pageSize?: number;
+};

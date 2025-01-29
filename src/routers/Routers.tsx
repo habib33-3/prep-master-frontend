@@ -6,7 +6,6 @@ import SignUpPage from "@/pages/SignUpPage/SignUpPage";
 import UpdateExercise from "@/pages/UpdateExercise/UpdateExercise";
 
 import RootLayout from "@/layout/RootLayout";
-import { getSingleExercise } from "@/services/api/exercise";
 
 const router = createBrowserRouter([
   {

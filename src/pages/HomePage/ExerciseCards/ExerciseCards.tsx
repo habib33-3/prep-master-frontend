@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import useGetAllExercise from "@/hooks/exercise/useGetAllExercise";
 
-import ExerciseCard from "@/components/cards/ExerciseCard";
+import ExerciseCard from "@/cards/ExerciseCard";
 
-import { type ExerciseType } from "@/types";
+import type { ExerciseType } from "@/types";
 
 const ExerciseCards = () => {
   const [openModalId, setOpenModalId] = useState<string | null>(null);
@@ -19,10 +19,19 @@ const ExerciseCards = () => {
     return <p>loading</p>;
   }
 
+  // Ensure exercises are defined and extract the data
+  const exerciseList = exercises?.data || [];
+
+  console.log(exerciseList.data);
+
+  if (exerciseList.length === 0) {
+    return <p className="text-center text-gray-500">No exercises available</p>;
+  }
+
   return (
     <main>
       <div className="grid grid-cols-3 items-center justify-center">
-        {exercises?.map((exercise: ExerciseType) => (
+        {exerciseList.map((exercise: ExerciseType) => (
           <ExerciseCard
             key={exercise.id}
             questionData={exercise}
@@ -34,4 +43,5 @@ const ExerciseCards = () => {
     </main>
   );
 };
+
 export default ExerciseCards;
