@@ -11,7 +11,7 @@ export const getAllExercisesApi = async ({
   pageNo = 1,
   pageSize = 10,
   searchText = "",
-}: PaginationInput): Promise<{ data: ExerciseType[] }> => {
+}: PaginationInput): Promise<ExerciseType[]> => {
   try {
     const res = await axiosPublicInstance.get("/exercise", {
       params: {
@@ -21,9 +21,7 @@ export const getAllExercisesApi = async ({
       },
     });
 
-    return {
-      data: res.data.data.data,
-    };
+    return res.data.data.items;
   } catch (error) {
     console.error("Error fetching exercises:", error);
     throw error;
@@ -38,7 +36,7 @@ export const updateExerciseApi = async (
 export const getSingleExercise = async (id: string): Promise<ExerciseType> => {
   const res = await axiosProtectedInstance.get(`/exercise/${id}`);
 
-  return res.data.data;
+  return res.data.data.items;
 };
 
 export const deleteExercise = async (id: string) =>

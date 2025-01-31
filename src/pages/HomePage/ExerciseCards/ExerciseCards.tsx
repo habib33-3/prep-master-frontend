@@ -19,7 +19,7 @@ const ExerciseCards = () => {
     return <p>loading</p>;
   }
 
-  const exerciseList = exercises?.data || [];
+  const exerciseList = (exercises as ExerciseType[]) || [];
 
   if (exerciseList.length === 0) {
     return <p className="text-center text-gray-500">No exercises available</p>;

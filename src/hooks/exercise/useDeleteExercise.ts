@@ -7,7 +7,7 @@ import { deleteExercise } from "@/services/api/exercise";
 const useDeleteExercise = (id: string) => {
   const { isPending, mutate } = useMutation({
     mutationFn: async () => await deleteExercise(id),
-    mutationKey: [exerciseKey, id],
+    mutationKey: [exerciseKey],
     onError: () => {
       toast.error("Failed to update exercise");
     },
