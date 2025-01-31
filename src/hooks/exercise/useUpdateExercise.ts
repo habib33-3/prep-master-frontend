@@ -1,42 +1,18 @@
-/* eslint-disable no-shadow */
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
-import { z } from "zod";
 
-import { exerciseKey } from "@/constants";
-import { updateExerciseApi } from "@/services/api/exercise";
+import {
+  UpdateExerciseFormSchema,
+  type UpdateExerciseFormValues,
+} from "@/types/validation-schema";
 
-// Update the schema to make fields optional
-const UpdateExerciseFormSchema = z.object({
-  questionText: z.string().optional(), // Optional, no length check
-  answerText: z.string().optional(), // Optional, no length check
-  difficulty: z.enum(["EASY", "MEDIUM", "HARD"]).optional(), // Optional
-  topicName: z.string().optional(), // Optional, no length check
-  tagList: z
-    .union([
-      z.string(), // Allow a string (comma-separated)
-      z.array(z.string()), // Or an array of strings
-    ])
-    .transform(
-      (tagList) =>
-        // Normalize into an array of trimmed strings
-        typeof tagList === "string"
-          ? tagList
-              .split(",")
-              .map((tag) => tag.trim())
-              .filter((tag) => tag !== "") // Filter out empty strings
-          : tagList.map((tag) => tag.trim()) // For array, just trim each element
-    )
-    .optional(), // Optional
-});
+import { useUpdateExerciseMutation } from "./useUpdateExerciseMutation";
 
 const useUpdateExerciseForm = (id: string) => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof UpdateExerciseFormSchema>>({
+  const form = useForm<UpdateExerciseFormValues>({
     resolver: zodResolver(UpdateExerciseFormSchema),
     defaultValues: {
       questionText: "",
@@ -47,29 +23,14 @@ const useUpdateExerciseForm = (id: string) => {
     },
   });
 
-  const { mutate, isPending, isError, isSuccess, error, data } = useMutation({
-    mutationFn: async ({
-      id,
-      ...values
-    }: z.infer<typeof UpdateExerciseFormSchema> & { id: string }) =>
-      await updateExerciseApi(id, values), // Use update API
-    mutationKey: [exerciseKey, id],
-    onError: () => {
-      toast.error("Failed to update exercise");
-    },
-    onSuccess: () => {
-      toast.success("Exercise updated successfully");
+  const { mutate, isPending, isError, isSuccess, error, data } =
+    useUpdateExerciseMutation(() => {
+      form.reset();
+      navigate("/");
+    });
 
-      form.reset(); // Clear the form after successful submission
-      navigator("/");
-    },
-  });
-
-  const handleUpdateExercise = (
-    id: string,
-    values: z.infer<typeof UpdateExerciseFormSchema>
-  ) => {
-    mutate({ id, ...values }); // Include id in the payload
+  const handleUpdateExercise = (values: UpdateExerciseFormValues) => {
+    mutate({ id, ...values });
   };
 
   return {

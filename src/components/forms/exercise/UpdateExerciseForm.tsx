@@ -27,9 +27,7 @@ const UpdateExerciseForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((values) =>
-          handleUpdateExercise(id, values)
-        )}
+        onSubmit={form.handleSubmit((values) => handleUpdateExercise(values))}
       >
         {/* Reusable Fields */}
         <TextInputField
