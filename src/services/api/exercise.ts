@@ -11,7 +11,7 @@ export const getAllExercisesApi = async ({
   pageNo = 1,
   pageSize = 10,
   searchText = "",
-}: PaginationInput): Promise<ExerciseType[]> => {
+}: PaginationInput) => {
   try {
     const res = await axiosPublicInstance.get("/exercise", {
       params: {
@@ -21,7 +21,10 @@ export const getAllExercisesApi = async ({
       },
     });
 
-    return res.data.data.items;
+    return {
+      items: res.data.data.items as ExerciseType[],
+      totalPages: res.data.data.meta.totalPages,
+    };
   } catch (error) {
     console.error("Error fetching exercises:", error);
     throw error;

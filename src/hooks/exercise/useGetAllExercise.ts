@@ -7,28 +7,23 @@ import { getAllExercisesApi } from "@/services/api/exercise";
 const useGetAllExercise = () => {
   const [searchParams] = useSearchParams();
 
+  // Apply defaults if search params are missing or invalid
   const pageNo = Number(searchParams.get("pageNo")) || 1;
   const pageSize = Number(searchParams.get("pageSize")) || 10;
-  const searchText = searchParams.get("searchText") ?? "";
+  const searchText = searchParams.get("searchText")?.trim() ?? "";
 
-  const {
-    data: exercises,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [exerciseKey, pageNo, pageSize, searchText],
-    queryFn: async () =>
-      await getAllExercisesApi({
-        pageNo,
-        pageSize,
-        searchText,
-      }),
+    queryFn: () => getAllExercisesApi({ pageNo, pageSize, searchText }),
+    // Ensures smooth pagination
+    staleTime: 5000,
   });
 
   return {
-    exercises,
-    isError,
+    items: data?.items || [],
+    totalPages: data?.totalPages || 1,
     isLoading,
+    isError,
   };
 };
 
