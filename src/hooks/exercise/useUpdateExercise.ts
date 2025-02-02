@@ -28,7 +28,7 @@ const useUpdateExerciseForm = (id: string) => {
 
   const { mutate, isPending, isError, isSuccess, error, data } =
     useUpdateExerciseMutation(() => {
-      navigate("/"); // Navigate after successful mutation
+      navigate("/");
     });
 
   const handleUpdateExercise = (values: UpdateExerciseFormValues) => {

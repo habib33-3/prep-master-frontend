@@ -1,18 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { exerciseKey } from "@/constants";
 import { deleteExercise } from "@/services/api/exercise";
 
 const useDeleteExercise = (id: string) => {
+  const queryClient = useQueryClient();
+
   const { isPending, mutate } = useMutation({
     mutationFn: async () => await deleteExercise(id),
-    mutationKey: [exerciseKey],
     onError: () => {
-      toast.error("Failed to update exercise");
+      toast.error("Failed to delete exercise");
     },
     onSuccess: () => {
-      toast.success("Exercise updated successfully");
+      queryClient.invalidateQueries({ queryKey: [exerciseKey] });
+      toast.success("Exercise deleted successfully");
     },
   });
 
