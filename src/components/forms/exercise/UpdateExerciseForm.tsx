@@ -34,6 +34,7 @@ const UpdateExerciseForm = () => {
           name="questionText"
           label="Question"
           placeholder={exercise?.questionText}
+          defaultValue={exercise?.questionText}
           control={form.control}
         />
         <TextInputField

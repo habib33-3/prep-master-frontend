@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/ui/alert-dialog";
-import { Button } from "@/ui/button";
 
 type Props = {
   handleDelete: () => void;
@@ -19,20 +18,32 @@ type Props = {
 
 const DeleteConfirmationModal = ({ handleDelete }: Props) => (
   <AlertDialog>
-    <AlertDialogTrigger>
-      <Trash2 className="cursor-pointer" />
+    <AlertDialogTrigger className="">
+      <Trash2
+        className="cursor-pointer text-red-700"
+        size={20}
+      />
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogTitle>
+          Are you sure you want to delete this exercise?
+        </AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your
-          account and remove your data from our servers.
+          This action cannot be undone. Once deleted, the exercise and all
+          associated data will be permanently removed.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={handleDelete}>delete</AlertDialogAction>
+        <AlertDialogCancel className="bg-secondary-foreground text-primary-foreground">
+          Cancel
+        </AlertDialogCancel>
+        <AlertDialogAction
+          onClick={handleDelete}
+          className="bg-destructive text-primary-foreground"
+        >
+          Delete
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

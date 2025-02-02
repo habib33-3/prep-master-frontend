@@ -1,3 +1,5 @@
+import type { InputHTMLAttributes } from "react";
+
 import {
   FormControl,
   FormField,
@@ -8,17 +10,22 @@ import {
 import { Input } from "@/components/ui/input";
 
 type Props = {
-  name: string;
   label: string;
-  placeholder?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
-const TextInputField = ({ control, label, name, placeholder = "" }: Props) => (
+const TextInputField = ({
+  control,
+  label,
+  name = "",
+  placeholder = "",
+  defaultValue,
+}: Props) => (
   <FormField
     name={name}
     control={control}
+    defaultValue={defaultValue}
     render={({ field }) => (
       <FormItem>
         <FormLabel>{label}</FormLabel>
