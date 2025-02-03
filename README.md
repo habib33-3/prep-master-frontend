@@ -111,6 +111,31 @@ This project is a full-stack web application built with **Next.js**, **ShadCN**,
 
 ---
 
+## **Backend Setup**
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/habib33-3/prep-master-backend
+   cd prep-master-backend
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**: Ensure you have the correct environment variables set in your `.env` file, including your Firebase and PostgreSQL configuration.
+
+4. **Run the backend server**:
+   ```bash
+   npm run start:dev
+   ```
+   Your backend should now be running on `http://localhost:4000`.
+
+---
+
 ## **Usage**
 
 1. **User Authentication**:
@@ -126,3 +151,7 @@ This project is a full-stack web application built with **Next.js**, **ShadCN**,
 3. **Pagination**:
    - Exercises are paginated to improve navigation through large datasets.
    - Pagination is handled by search parameters in the URL, and the page number is updated automatically.
+
+---
+
+Feel free to check out both the frontend and backend repositories to start working on the application!
