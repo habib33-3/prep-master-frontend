@@ -1,6 +1,6 @@
 import { type ChangeEvent, useEffect, useState } from "react";
 
-import { Search } from "lucide-react";
+import { X } from "lucide-react";
 import { useSearchParams } from "react-router";
 
 import useDebounce from "@/hooks/useDebounce";
@@ -8,21 +8,43 @@ import useDebounce from "@/hooks/useDebounce";
 import { Input } from "@/ui/input";
 
 const SearchBar = () => {
-  const [, setSearchParams] = useSearchParams();
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchText, setSearchText] = useState<string>(
+    searchParams.get("searchText") ?? ""
+  );
 
-  // Debounce the search text
-  const debouncedSearchText = useDebounce(searchText, 500); // 500ms debounce delay
+  const debouncedSearchText = useDebounce(searchText, 500);
 
-  // Update search params only when debounced search text changes
   useEffect(() => {
-    if (debouncedSearchText) {
-      setSearchParams({ searchText: debouncedSearchText });
-    }
+    setSearchParams(
+      (prevParams) => {
+        const newParams = new URLSearchParams(prevParams);
+        if (debouncedSearchText) {
+          newParams.set("searchText", debouncedSearchText);
+        } else {
+          newParams.delete("searchText");
+        }
+        return newParams;
+      },
+      { replace: true }
+    );
   }, [debouncedSearchText, setSearchParams]);
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
+  };
+
+  const handleClear = () => {
+    setSearchText("");
+
+    setSearchParams(
+      (prevParams) => {
+        const newParams = new URLSearchParams(prevParams);
+        newParams.delete("searchText");
+        return newParams;
+      },
+      { replace: true }
+    );
   };
 
   return (
@@ -33,7 +55,12 @@ const SearchBar = () => {
         onChange={handleSearch}
         className="pr-10"
       />
-      <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+      {searchText && (
+        <X
+          onClick={handleClear}
+          className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+        />
+      )}
     </div>
   );
 };

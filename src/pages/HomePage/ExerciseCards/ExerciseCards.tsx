@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useSearchParams } from "react-router";
 
@@ -14,6 +14,8 @@ const ExerciseCards = () => {
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const pageNo = Number(searchParams.get("pageNo")) || 1;
+
   const {
     items: exercises,
     totalPages,
@@ -21,30 +23,23 @@ const ExerciseCards = () => {
     isLoading,
   } = useGetAllExercise();
 
-  const pageNo = Number(searchParams.get("pageNo")) || 1;
-
-  // Function to update URL params and ensure pagination works correctly
-  const updateSearchParams = (key: string, value: string | number) => {
-    setSearchParams(
-      (prevParams) => {
+  const updateSearchParams = useCallback(
+    (key: string, value: string | number) => {
+      setSearchParams((prevParams) => {
         const newParams = new URLSearchParams(prevParams);
-
-        if (value) {
-          newParams.set(key, value.toString());
-        } else {
-          newParams.delete(key);
-        }
-
-        // Ensure page number is always present
-        if (!newParams.has("pageNo")) {
-          newParams.set("pageNo", "1");
-        }
-
+        newParams.set(key, value.toString());
         return newParams;
-      },
-      { replace: true }
-    );
-  };
+      });
+    },
+    [setSearchParams]
+  );
+
+  useEffect(() => {
+    const newPageNo = Number(searchParams.get("pageNo")) || 1;
+    if (newPageNo !== pageNo) {
+      updateSearchParams("pageNo", newPageNo);
+    }
+  }, [searchParams, pageNo, updateSearchParams]);
 
   if (isError) {
     return <p className="text-center text-red-500">Error loading exercises</p>;
