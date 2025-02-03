@@ -15,9 +15,12 @@ const envSchema = z.object({
 const parsedEnv = envSchema.safeParse(import.meta.env);
 
 if (!parsedEnv.success) {
+  const errorMessages = parsedEnv.error.errors.map(
+    (err) => `${err.path.join(".")}: ${err.message}`
+  );
   console.error(
-    "❌ Invalid Firebase environment variables:",
-    parsedEnv.error.format()
+    "❌ Invalid environment variables:\n",
+    errorMessages.join("\n")
   );
   throw new Error("Environment variables validation failed");
 }
