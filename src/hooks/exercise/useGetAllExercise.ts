@@ -14,14 +14,15 @@ const useGetAllExercise = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: [exerciseKey, pageNo, pageSize, searchText],
-    queryFn: () => getAllExercisesApi({ pageNo, pageSize, searchText }),
+    queryFn: () => getAllExercisesApi({ pageNo, pageSize, searchText }), // Make sure this returns PaginatedExerciseResponse
     // Ensures smooth pagination
     staleTime: 5000,
   });
 
+  // Adjust to access the correct properties: items and totalPages
   return {
     items: data?.items || [],
-    totalPages: data?.totalPages || 1,
+    totalPages: data?.totalPages ?? 1,
     isLoading,
     isError,
   };

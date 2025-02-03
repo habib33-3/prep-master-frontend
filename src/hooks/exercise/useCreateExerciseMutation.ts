@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import type { CreateExerciseFormValues } from "@/types/validation-schema";
@@ -13,6 +13,8 @@ export const useCreateExerciseMutation = (
 ) => {
   const { user } = useAuth();
 
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (values: CreateExerciseFormValues) => {
       if (!user?.email) {
@@ -22,6 +24,9 @@ export const useCreateExerciseMutation = (
     },
     mutationKey: [exerciseKey],
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [exerciseKey],
+      });
       toast.success("Exercise created successfully");
       onSuccess?.();
     },

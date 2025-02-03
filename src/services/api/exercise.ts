@@ -23,7 +23,7 @@ export const getAllExercisesApi = async ({
 
     return {
       items: res.data.data.items as ExerciseType[],
-      totalPages: res.data.data.meta.totalPages,
+      totalPages: res.data.data.meta.totalPages as number,
     };
   } catch (error) {
     console.error("Error fetching exercises:", error);

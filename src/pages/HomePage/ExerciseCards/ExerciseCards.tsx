@@ -20,25 +20,30 @@ const ExerciseCards = () => {
     isError,
     isLoading,
   } = useGetAllExercise();
+
   const pageNo = Number(searchParams.get("pageNo")) || 1;
 
-  // Function to update URL params and reset page when needed
+  // Function to update URL params and ensure pagination works correctly
   const updateSearchParams = (key: string, value: string | number) => {
-    setSearchParams((prevParams) => {
-      const newParams = new URLSearchParams(prevParams);
+    setSearchParams(
+      (prevParams) => {
+        const newParams = new URLSearchParams(prevParams);
 
-      if (value) {
-        newParams.set(key, value.toString());
-      } else {
-        newParams.delete(key);
-      }
+        if (value) {
+          newParams.set(key, value.toString());
+        } else {
+          newParams.delete(key);
+        }
 
-      if (key === "searchText") {
-        newParams.set("pageNo", "1"); // Reset to first page on new search
-      }
+        // Ensure page number is always present
+        if (!newParams.has("pageNo")) {
+          newParams.set("pageNo", "1");
+        }
 
-      return newParams;
-    });
+        return newParams;
+      },
+      { replace: true }
+    );
   };
 
   if (isError) {
@@ -55,7 +60,7 @@ const ExerciseCards = () => {
 
   return (
     <main className="space-y-6">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <div className="flex flex-col flex-wrap items-center justify-center gap-5 sm:flex-row">
         {exercises.map((exercise: ExerciseType) => (
           <ExerciseCard
             key={exercise.id}
