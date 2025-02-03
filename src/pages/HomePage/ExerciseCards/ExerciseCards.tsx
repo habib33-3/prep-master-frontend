@@ -8,13 +8,14 @@ import Pagination from "@/shared/Pagination";
 
 import ExerciseCard from "@/cards/ExerciseCard";
 
+import { SEARCH_PARAMS } from "@/constants";
 import type { ExerciseType } from "@/types";
 
 const ExerciseCards = () => {
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const pageNo = Number(searchParams.get("pageNo")) || 1;
+  const pageNo = Number(searchParams.get(SEARCH_PARAMS.PAGE_NO)) || 1;
 
   const {
     items: exercises,
@@ -35,9 +36,9 @@ const ExerciseCards = () => {
   );
 
   useEffect(() => {
-    const newPageNo = Number(searchParams.get("pageNo")) || 1;
+    const newPageNo = Number(searchParams.get(SEARCH_PARAMS.PAGE_NO)) || 1;
     if (newPageNo !== pageNo) {
-      updateSearchParams("pageNo", newPageNo);
+      updateSearchParams(SEARCH_PARAMS.PAGE_NO, newPageNo);
     }
   }, [searchParams, pageNo, updateSearchParams]);
 
@@ -65,14 +66,12 @@ const ExerciseCards = () => {
           />
         ))}
       </div>
-
-      {/* Pagination */}
       <div className="flex justify-center">
         <Pagination
           totalPages={totalPages}
           currentPage={pageNo}
           onPageChange={(newPage: number) =>
-            updateSearchParams("pageNo", newPage)
+            updateSearchParams(SEARCH_PARAMS.PAGE_NO, newPage)
           }
         />
       </div>

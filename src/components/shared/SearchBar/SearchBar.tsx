@@ -7,10 +7,12 @@ import useDebounce from "@/hooks/useDebounce";
 
 import { Input } from "@/ui/input";
 
+import { SEARCH_PARAMS } from "@/constants";
+
 const SearchBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchText, setSearchText] = useState<string>(
-    searchParams.get("searchText") ?? ""
+    searchParams.get(SEARCH_PARAMS.SEARCH_TEXT) ?? ""
   );
 
   const debouncedSearchText = useDebounce(searchText, 500);
@@ -20,9 +22,9 @@ const SearchBar = () => {
       (prevParams) => {
         const newParams = new URLSearchParams(prevParams);
         if (debouncedSearchText) {
-          newParams.set("searchText", debouncedSearchText);
+          newParams.set(SEARCH_PARAMS.SEARCH_TEXT, debouncedSearchText);
         } else {
-          newParams.delete("searchText");
+          newParams.delete(SEARCH_PARAMS.SEARCH_TEXT);
         }
         return newParams;
       },
