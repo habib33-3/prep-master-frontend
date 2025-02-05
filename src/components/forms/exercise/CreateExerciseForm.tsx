@@ -4,6 +4,7 @@ import { Button } from "@/ui/button";
 import { Form } from "@/ui/form";
 
 import DropdownFields from "@/shared/FormField/DropdownFields";
+import TextareaField from "@/shared/FormField/TextAreaField";
 import TextInputField from "@/shared/FormField/TextInputField";
 
 const CreateExerciseForm = () => {
@@ -19,7 +20,7 @@ const CreateExerciseForm = () => {
           placeholder="What is Web?"
           control={form.control}
         />
-        <TextInputField
+        <TextareaField
           name="answerText"
           label="Answer"
           placeholder="The web is a network of websites."

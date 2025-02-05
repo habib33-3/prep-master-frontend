@@ -18,7 +18,10 @@ const CreateExerciseModal = () => {
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <DialogTrigger className="my-6">Add Question</DialogTrigger>
+      <DialogTrigger className="my-6 rounded-lg bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-3 font-medium text-white shadow-lg transition duration-300 hover:opacity-90 hover:shadow-xl">
+        Add Question
+      </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Exercise</DialogTitle>
