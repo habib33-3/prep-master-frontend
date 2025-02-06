@@ -12,7 +12,7 @@ const useGetAllExercise = () => {
   const { pageNo, pageSize, searchText } = useMemo(
     () => ({
       pageNo: Number(searchParams.get(SEARCH_PARAMS.PAGE_NO)) || 1,
-      pageSize: Number(searchParams.get(SEARCH_PARAMS.PAGE_SIZE)) || 10,
+      pageSize: Number(searchParams.get(SEARCH_PARAMS.PAGE_SIZE)) || 12,
       searchText: searchParams.get(SEARCH_PARAMS.SEARCH_TEXT)?.trim() ?? "",
     }),
     [searchParams]

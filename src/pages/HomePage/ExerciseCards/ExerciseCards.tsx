@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 import { useSearchParams } from "react-router";
 
@@ -12,7 +12,6 @@ import { SEARCH_PARAMS } from "@/constants";
 import type { ExerciseType } from "@/types";
 
 const ExerciseCards = () => {
-  const [openModalId, setOpenModalId] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pageNo = Number(searchParams.get(SEARCH_PARAMS.PAGE_NO)) || 1;
@@ -117,8 +116,6 @@ const ExerciseCards = () => {
               <ExerciseCard
                 key={exercise.id}
                 questionData={exercise}
-                isModalOpen={openModalId === exercise.id}
-                setOpenModalId={setOpenModalId}
               />
             ))}
           </div>
