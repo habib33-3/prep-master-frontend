@@ -10,11 +10,20 @@ import "./index.css";
 import AuthProvider from "./providers/AuthProvider";
 import router from "./routers/Routers";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      retry: 2,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <StrictMode>
       <AuthProvider>
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
@@ -23,6 +32,6 @@ createRoot(document.getElementById("root")!).render(
           position="top-center"
         />
       </AuthProvider>
-    </QueryClientProvider>
-  </StrictMode>
+    </StrictMode>
+  </QueryClientProvider>
 );
