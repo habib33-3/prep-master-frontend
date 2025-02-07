@@ -19,28 +19,35 @@ type Props = {
 };
 
 const ExerciseCard = ({ questionData }: Props) => {
-  const { id, questionText, topicName } = questionData;
-
+  const { id, questionText, topicName, difficulty } = questionData;
   const [modal, setModal] = useState(false);
 
   return (
     <div className="relative">
-      <Card className="relative mx-auto flex h-[260px] w-full max-w-sm flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
-        <Badge className="absolute left-4 top-4 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 shadow-sm">
-          {topicName}
-        </Badge>
+      <Card className="relative mx-auto flex h-auto w-full max-w-md flex-col rounded-3xl border border-gray-200 bg-gradient-to-br from-white via-gray-50 to-gray-100 p-6 shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
+        {/* Topic Badge */}
+        <div className="flex items-center justify-between">
+          <Badge className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 shadow-md">
+            {topicName}
+          </Badge>
+          <Toolbox id={id} />
+        </div>
 
-        <Toolbox id={id} />
-
-        <CardHeader className="flex flex-col items-center">
-          <CardContent className="flex grow items-center justify-center">
-            <CardTitle className="line-clamp-3 text-center text-lg font-semibold leading-snug text-gray-900">
-              {questionText}
-            </CardTitle>
-          </CardContent>
+        <CardHeader className="mt-4 text-center">
+          {/* Question Text */}
+          <CardTitle className="line-clamp-3 text-lg font-semibold leading-snug text-gray-900">
+            {questionText}
+          </CardTitle>
         </CardHeader>
 
-        <CardFooter className="mt-2 flex justify-center">
+        <CardContent className="mt-3 flex flex-col items-center gap-3">
+          {/* Difficulty Badge */}
+          <Badge className="bg-purple-100 px-4 py-1 font-medium text-purple-700 shadow-sm">
+            {difficulty}
+          </Badge>
+        </CardContent>
+
+        <CardFooter className="mt-4 flex justify-center">
           <AnswerModal
             answer={questionData}
             isModalOpen={modal}
