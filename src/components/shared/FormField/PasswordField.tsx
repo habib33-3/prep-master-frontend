@@ -13,8 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 type PasswordFieldProps<T extends FieldValues> = {
-  form: { control: Control<T> }; // Generic control type
-  name: Path<T>; // Add the `name` prop and ensure it matches the schema keys
+  form: { control: Control<T> }; 
+  name: Path<T>; 
 };
 
 const PasswordField = <T extends FieldValues>({
