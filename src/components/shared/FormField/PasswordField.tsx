@@ -28,7 +28,7 @@ const PasswordField = <T extends FieldValues>({
   return (
     <FormField
       control={form.control}
-      name={name} // Use the name dynamically
+      name={name} 
       render={({ field }) => (
         <FormItem>
           <FormLabel>Password</FormLabel>
